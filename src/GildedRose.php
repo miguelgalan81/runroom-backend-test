@@ -18,10 +18,10 @@ class GildedRose
     function update_quality()
     {
         foreach ($this->items as $item) {
-            if ($item->name != self::BRIE and $item->name != self::BACKSTAGE) {
-                $item->checkQualityAndNameToDowngradeQuality($item);
-            } else {
+            if ($item->name === self::BRIE || $item->name === self::BACKSTAGE) {
                 $item->checkQualityToUpdateIt($item);
+            } else {
+                $item->checkQualityAndNameToDowngradeQuality($item);
             }
 
             if ($item->name != self::SULFURAS) {
