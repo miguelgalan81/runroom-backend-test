@@ -43,4 +43,45 @@ class Item
 
         return $item;
     }
+
+    /**
+     * modifyQualityByName
+     *
+     * @param Item $item
+     * @return Item
+     */
+    public function modifyQualityByName(Item $item): Item
+    {
+        if ($item->name == self::BRIE) {
+            if ($item->quality < 50) {
+                $item->quality++;
+            }
+        } else {
+            if ($item->name == self::BACKSTAGE) {
+                $item->quality = 0;
+            } else {
+                if ($item->quality > 0 && $item->name != self::SULFURAS) {
+                    $item->quality--;
+                }
+            }
+        }
+
+        return $item;
+    }
+
+    /**
+     * modifyQualityByName
+     *
+     * @param Item $item
+     * @return Item
+     */
+    public function checkQualityToUpdateIt(Item $item): Item
+    {
+        if ($item->quality < 50) {
+            $item->quality++;
+            $item = $this->updateQualityIfIsBackstageAndSellLessThanEleven($item);
+        }
+
+        return $item;
+    }
 }
