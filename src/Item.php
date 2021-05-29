@@ -12,7 +12,7 @@ class Item
     public $sell_in;
     public $quality;
 
-    function __construct($name, $sell_in, $quality)
+    function __construct(string $name, int $sell_in, int $quality) {
     {
         $this->name = $name;
         $this->sell_in = $sell_in;
@@ -80,6 +80,21 @@ class Item
         if ($item->quality < 50) {
             $item->quality++;
             $item = $this->updateQualityIfIsBackstageAndSellLessThanEleven($item);
+        }
+
+        return $item;
+    }
+
+    /**
+     * checkQualityAndNameToDowngradeQuality
+     *
+     * @param Item $item
+     * @return Item
+     */
+    public function checkQualityAndNameToDowngradeQuality(Item $item): Item
+    {
+        if ($item->quality > 0 && $item->name != self::SULFURAS) {
+            $item->quality = $item->quality - 1;
         }
 
         return $item;

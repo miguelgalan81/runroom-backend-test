@@ -19,11 +19,7 @@ class GildedRose
     {
         foreach ($this->items as $item) {
             if ($item->name != self::BRIE and $item->name != self::BACKSTAGE) {
-                if ($item->quality > 0) {
-                    if ($item->name != self::SULFURAS) {
-                        $item->quality = $item->quality - 1;
-                    }
-                }
+                $item->checkQualityAndNameToDowngradeQuality($item);
             } else {
                 $item->checkQualityToUpdateIt($item);
             }
