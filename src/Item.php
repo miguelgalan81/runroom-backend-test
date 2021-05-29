@@ -25,78 +25,96 @@ class Item
     }
 
     /**
+     * updateItem
+     *
+     * @return void
+     */
+    public function updateItem(): void
+    {
+        if ($this->name === self::BRIE || $this->name === self::BACKSTAGE) {
+            $this->checkQualityToUpdateIt();
+        } else {
+            $this->checkQualityAndNameToDowngradeQuality();
+        }
+
+        if ($this->name != self::SULFURAS) {
+            $this->sell_in--;
+        }
+
+        if ($this->sell_in < 0) {
+            $this->modifyQualityByName();
+        }
+    }
+
+    /**
      * updateQualityIfIsBackstageAndSellLessThanEleven
      *
-     * @param Item $item
      * @return Item
      */
-    public function updateQualityIfIsBackstageAndSellLessThanEleven(Item $item): Item
+    public function updateQualityIfIsBackstageAndSellLessThanEleven(): Item
     {
-        if ($item->name == self::BACKSTAGE) {
-            if ($item->sell_in < 11) {
-                $item->quality++;
+        if ($this->name == self::BACKSTAGE) {
+            if ($this->sell_in < 11) {
+                $this->quality++;
             }
-            if ($item->sell_in < 6) {
-                $item->quality++;
+            if ($this->sell_in < 6) {
+                $this->quality++;
             }
         }
 
-        return $item;
+        return $this;
     }
 
     /**
      * modifyQualityByName
      *
-     * @param Item $item
      * @return Item
      */
-    public function modifyQualityByName(Item $item): Item
+    public function modifyQualityByName(): Item
     {
-        if ($item->name == self::BRIE) {
-            if ($item->quality < 50) {
-                $item->quality++;
+        if ($this->name == self::BRIE) {
+            if ($this->quality < 50) {
+                $this->quality++;
             }
         } else {
-            if ($item->name == self::BACKSTAGE) {
-                $item->quality = 0;
+            if ($this->name == self::BACKSTAGE) {
+                $this->quality = 0;
             } else {
-                if ($item->quality > 0 && $item->name != self::SULFURAS) {
-                    $item->quality--;
+                if ($this->quality > 0 && $this->name != self::SULFURAS) {
+                    $this->quality--;
                 }
             }
         }
 
-        return $item;
+        return $this;
     }
 
     /**
      * modifyQualityByName
      *
-     * @param Item $item
      * @return Item
      */
-    public function checkQualityToUpdateIt(Item $item): Item
+    public function checkQualityToUpdateIt(): Item
     {
-        if ($item->quality < 50) {
-            $item->quality++;
-            $item = $this->updateQualityIfIsBackstageAndSellLessThanEleven($item);
+        if ($this->quality < 50) {
+            $this->quality++;
+            $this->updateQualityIfIsBackstageAndSellLessThanEleven();
         }
 
-        return $item;
+        return $this;
     }
 
     /**
      * checkQualityAndNameToDowngradeQuality
      *
-     * @param Item $item
      * @return Item
      */
-    public function checkQualityAndNameToDowngradeQuality(Item $item): Item
+    public function checkQualityAndNameToDowngradeQuality(): Item
     {
-        if ($item->quality > 0 && $item->name != self::SULFURAS) {
-            $item->quality = $item->quality - 1;
+        if ($this->quality > 0 && $this->name != self::SULFURAS) {
+            $this->quality = $this->quality - 1;
         }
 
-        return $item;
+        return $this;
     }
 }
